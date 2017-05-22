@@ -64,7 +64,7 @@ tri.vertices.push(
   new Vector3(-10, -10, 0),
   new Vector3(10, -10, 0)
 )
-tri.faces.push( new Face3(0, 1, 2));
+tri.faces.push( new Face3(0, 1, 2) );
 
 
 //-------------------------------MESHES------------------>>>>
@@ -88,7 +88,7 @@ var particleCount = 1800,
     });
 
 // now create the individual particles
-for (var p = 0; p < particleCount; p++) {
+for ( var p = 0; p < particleCount; p++ ) {
 
   // create a particle with random
   // position values, -250 -> 250
@@ -96,9 +96,9 @@ for (var p = 0; p < particleCount; p++) {
       pY = Math.random() * 500 - 250,
       pZ = Math.random() * 500 - 250,
       particle = new Vector3(pX, pY, pZ);
-
   // add it to the geometry
   particles.vertices.push(particle);
+
 }
 
 // create the particle system
@@ -107,12 +107,27 @@ var particleSystem = new Points(
     pMaterial);
 
 // add it to the scene
-scene.add(particleSystem);
+scene.add( particleSystem );
 // need to fix fox....currently only affecting moving object
 scene.fog = new FogExp2( 0xffffff, 0.1 );
 
 
 particleSystem.position.y = 400;
+
+let cubeCount = 8;
+let cubeStore = [];
+// now create the individual particles
+for ( var i = 0; i < cubeCount; i++ ) {
+
+  // create a particle with random
+  // position values, -250 -> 250
+    let obj = new Mesh( geometry, reflect );
+    cubeStore.push(obj);
+    obj.position.x = Math.random() * 15 - 10;
+    obj.position.y = 0;
+    //add object to the scene
+    scene.add(obj);
+}
 
 // -------------------SCENE ADD/PUT THANGS TOGETHER ------------------->>>>>
 //add cube to the scene
@@ -152,6 +167,21 @@ function animate() {
   cube.rotation.y += 0.001;
   cube.position.x += 0.05;
   //cube.scale.x -= 0.03;
+    //obj.position.x += 0.5;
+
+  cubeStore.forEach(function(obj) {
+    obj.position.x += 0.07;
+    obj.rotation.x += 0.008;
+    obj.rotation.y += 0.004;
+
+    if ( obj.position.x >= 4.5 ) {
+
+        obj.position.x = -5;
+
+    }
+
+  })
+
   if ( cube.position.x >= 4.5 ) {
 
     cube.position.x = -5;
@@ -160,10 +190,15 @@ function animate() {
 
     //animate particles
   if (particleSystem.position.y > -150) {
+
     particleSystem.position.y -= 0.7;
+
   }
+
   else {
+
     particleSystem.position.y = 350;
+
   }
 
 
