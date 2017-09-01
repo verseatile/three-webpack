@@ -1,25 +1,27 @@
 // THE MASTER CONFIG FILE
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  title: "Le App",
+  template: './index.html',
+  filename: 'index.html',
+  inject: 'body'
+})
+
 const path = require('path');
 
 const config = {
   entry: './src/index.js',
   devServer: {
-    contentBase: path.join(__dirname, "dist/assets"),
+    contentBase: path.resolve(__dirname + "/src"),
     compress: true,
     port: 9000
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.resolve(__dirname + '/dist'),
     filename: 'index_bundle.js'
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: "Le App",
-      filename: 'assets/main.html'
-    })
-  ],
+  plugins: [HtmlWebpackPluginConfig],
   module: {
     rules: [
       {
